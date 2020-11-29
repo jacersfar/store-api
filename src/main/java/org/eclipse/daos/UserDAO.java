@@ -7,44 +7,45 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import org.eclipse.IDAO.IDAO;
 import org.eclipse.models.Admin;
 import org.eclipse.models.Client;
 import org.eclipse.models.User;
 
 @Repository
-public class UserDAO {
+public class UserDAO implements IDAO<User>{
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Override
 	public List<User> find() {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> userList = session.createQuery("from User").list();
 		return userList;
 	}
-	
-	public void addUser(Client user) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.save(user);
+	@Override
+	public User findById(long id) {
+		return (User) this.sessionFactory.getCurrentSession().get(User.class, id);
 	}
-	
-	public void addUser(Admin admin) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.save(admin);
+	@Override
+	public void add(User object) {
+		if (object instanceof Client)
+			this.sessionFactory.getCurrentSession().save((Client) object);
+		else if (object instanceof Admin) 
+			this.sessionFactory.getCurrentSession().save((Admin) object);
 	}
-	
-	public void updateUser(Client client) {
-		this.sessionFactory.getCurrentSession().update(client);
+	@Override
+	public void delete(User object) {
+		if (object instanceof Client)
+			this.sessionFactory.getCurrentSession().delete((Client) object);
+		else if (object instanceof Admin) 
+			this.sessionFactory.getCurrentSession().delete((Admin) object);
 	}
-	
-	public void updateUser(Admin admin) {
-		this.sessionFactory.getCurrentSession().update(admin);
-	}
-	
-	public void deleteUser(Client client) {
-		this.sessionFactory.getCurrentSession().delete(client);
-	}
-	
-	public void deleteUser(Admin admin) {
-		this.sessionFactory.getCurrentSession().delete(admin);
+	@Override
+	public void update(User object) {
+		if (object instanceof Client)
+			this.sessionFactory.getCurrentSession().update((Client) object);
+		else if (object instanceof Admin) 
+			this.sessionFactory.getCurrentSession().update((Admin) object);
 	}
 }

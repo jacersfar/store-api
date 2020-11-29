@@ -2,11 +2,16 @@ package org.eclipse.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="order_line")
@@ -19,7 +24,7 @@ public class OrderLine {
 	@JoinColumn(name="order_id")
 	private Order order;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	private Product product;
 	
@@ -50,6 +55,7 @@ public class OrderLine {
 		this.id = id;
 	}
 
+	@JsonBackReference(value="order")
 	public Order getOrder() {
 		return order;
 	}
@@ -58,6 +64,7 @@ public class OrderLine {
 		this.order = order;
 	}
 
+	@JsonManagedReference(value="orderLines")
 	public Product getProduct() {
 		return product;
 	}
@@ -73,4 +80,6 @@ public class OrderLine {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	
 }

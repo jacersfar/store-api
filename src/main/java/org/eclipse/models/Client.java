@@ -12,12 +12,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
+
 @Entity
 @Table(name="client")
 public class Client extends User {
 	@Column(name="name")
 	private String name;
-	@OneToMany(mappedBy="client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
+	
+	@OneToMany(mappedBy="client", fetch = FetchType.EAGER,  cascade= {CascadeType.ALL})
 	private List<Order> orderList;
 	
 	@Transient
@@ -69,6 +75,7 @@ public class Client extends User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@JsonManagedReference(value="client")
 	public List<Order> getOrderList() {
 		return orderList;
 	}
@@ -94,6 +101,16 @@ public class Client extends User {
 			}
 		}
 	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
 
 	@Override
 	public String toString() {

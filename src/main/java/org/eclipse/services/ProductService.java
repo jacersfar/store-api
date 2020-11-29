@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.eclipse.daos.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.eclipse.models.Book;
 import org.eclipse.models.Product;
 
 @Service
@@ -20,18 +19,22 @@ public class ProductService {
 		return this.productDAO.find();
 	}
 	
-	@Transactional
-	public void addProduct(Book book) {
-		this.productDAO.addProduct(book);
+	public Product findById(long id) {
+		return this.productDAO.findById(id);
 	}
 	
 	@Transactional
-	public void updateProduct(Book book) {
-		this.productDAO.updateProduct(book);
+	public void add(Product product) {
+		this.productDAO.add(product);
 	}
 	
 	@Transactional
-	public void deleteProduct(Book book) {
-		this.productDAO.deleteProduct(book);
+	public void update(Product product) {
+		this.productDAO.update(product);
+	}
+	
+	@Transactional
+	public void delete(Product product) {
+		this.productDAO.delete(product);
 	}
 }

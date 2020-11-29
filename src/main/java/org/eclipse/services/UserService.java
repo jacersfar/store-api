@@ -4,8 +4,6 @@ import java.util.List;
 
 
 import org.eclipse.daos.UserDAO;
-import org.eclipse.models.Admin;
-import org.eclipse.models.Client;
 import org.eclipse.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,37 +18,27 @@ public class UserService {
 	
 	@Transactional
 	public List<User> find() {
-		return userDAO.find();
+		return this.userDAO.find();
 	}
 	
 	@Transactional
-	public void addUser(Client user) {
-		userDAO.addUser(user);
+	public User findById(long id) {
+		return this.userDAO.findById(id);
 	}
 	
 	@Transactional
-	public void addUser(Admin user) {
-		userDAO.addUser(user);
+	public void add(User user) {
+		this.userDAO.add(user);
 	}
 	
 	@Transactional
-	public void updateUser(Client user) {
-		userDAO.updateUser(user);
-	}
-	
-	@Transactional
-	public void updateUser(Admin user) {
-		userDAO.updateUser(user);
+	public void update(User user) {
+		this.userDAO.update(user);
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void deleteUser(Client user) {
-		userDAO.deleteUser(user);
-	}
-	
-	@Transactional(isolation=Isolation.READ_COMMITTED)
-	public void deleteUser(Admin user) {
-		userDAO.deleteUser(user);
+	public void delete(User user) {
+		this.userDAO.delete(user);
 	}
 	
 	@Transactional

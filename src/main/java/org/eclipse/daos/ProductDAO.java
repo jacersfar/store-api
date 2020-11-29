@@ -2,6 +2,7 @@ package org.eclipse.daos;
 
 import java.util.List;
 
+import org.eclipse.IDAO.IDAO;
 import org.eclipse.models.Book;
 import org.eclipse.models.Product;
 import org.hibernate.SessionFactory;
@@ -9,23 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductDAO {
+public class ProductDAO implements IDAO<Product> {
 	@Autowired
 	SessionFactory sessionFactory;
 	
+	@Override
 	public List<Product> find() {
 		return this.sessionFactory.getCurrentSession().createQuery("from Product").list();
 	}
-	
-	public void addProduct(Book book) {
-		this.sessionFactory.getCurrentSession().save(book);
+
+	@Override
+	public Product findById(long id) {
+		return (Product) this.sessionFactory.getCurrentSession().get(Product.class, id);
 	}
-	
-	public void updateProduct(Book book) {
-		this.sessionFactory.getCurrentSession().update(book);
+
+	@Override
+	public void add(Product object) {
+		if (object instanceof Book)
+			this.sessionFactory.getCurrentSession().save((Book)object);
+		
 	}
-	
-	public void deleteProduct(Book book) {
-		this.sessionFactory.getCurrentSession().delete(book);
+
+	@Override
+	public void delete(Product object) {
+		if (object instanceof Book)
+			this.sessionFactory.getCurrentSession().delete((Book)object);
+	}
+
+	@Override
+	public void update(Product object) {
+		if (object instanceof Book)
+			this.sessionFactory.getCurrentSession().update((Book)object);
 	}
 }

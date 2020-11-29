@@ -14,6 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 @Entity
 @Table(name="client_order")
 public class Order {
@@ -27,11 +32,11 @@ public class Order {
 	@Column(name="order_status")
 	private String status;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="client")
+	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="client") 
 	private Client client;
 	
-	@OneToMany(mappedBy="order", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<OrderLine> orderLines;
 
 	public Order() {
@@ -82,6 +87,7 @@ public class Order {
 		this.status = status;
 	}
 
+	@JsonBackReference(value="client")
 	public Client getClient() {
 		return client;
 	}
@@ -89,4 +95,16 @@ public class Order {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
+	@JsonManagedReference(value="order")
+	public List<OrderLine> getOrderLines() {
+		return orderLines;
+	}
+
+
+	public void setOrderLines(List<OrderLine> orderLines) {
+		this.orderLines = orderLines;
+	}
+	
+	
 }

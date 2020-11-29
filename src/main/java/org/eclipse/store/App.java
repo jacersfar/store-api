@@ -16,8 +16,8 @@ public class App
 	static UserDAO userDao;
     public static void main( String[] args )
     {
-    	userDao.addUser(new Admin(5,"test@test.Com", "123456", "Jacer sfar"));
-    	userDao.addUser(new Client(1, "test2@test.com", "1234567","OussamaBen hammouda"));
+    	userDao.add(new Admin(5,"test@test.Com", "123456", "Jacer sfar"));
+    	userDao.add(new Client(1, "test2@test.com", "1234567","OussamaBen hammouda"));
     	for (User u: userDao.find()) {
     		System.out.println(u);
     	}
