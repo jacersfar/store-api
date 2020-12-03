@@ -70,7 +70,7 @@ public abstract class Product {
 		this.quantity = quantity;
 	}
 
-	@JsonBackReference(value="orderLines")
+	@JsonManagedReference(value="orderLines")
 	public List<OrderLine> getOrderLines() {
 		return orderLines;
 	}

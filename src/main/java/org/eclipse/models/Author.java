@@ -36,6 +36,11 @@ public class Author {
 		this.name = name;
 		this.books = books;
 	}
+	public Author(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
 	public Author() {
 		super();
@@ -57,7 +62,7 @@ public class Author {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@JsonBackReference(value="books")
+	@JsonManagedReference(value="books")
 	public List<Book> getBooks() {
 		return books;
 	}

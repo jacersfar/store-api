@@ -13,7 +13,10 @@ import org.springframework.stereotype.Repository;
 public class ProductDAO implements IDAO<Product> {
 	@Autowired
 	SessionFactory sessionFactory;
-	
+	public ProductDAO() {}
+	public ProductDAO(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 	@Override
 	public List<Product> find() {
 		return this.sessionFactory.getCurrentSession().createQuery("from Product").list();
@@ -42,4 +45,11 @@ public class ProductDAO implements IDAO<Product> {
 		if (object instanceof Book)
 			this.sessionFactory.getCurrentSession().update((Book)object);
 	}
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
 }

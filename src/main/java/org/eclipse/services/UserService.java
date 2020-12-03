@@ -2,7 +2,7 @@ package org.eclipse.services;
 
 import java.util.List;
 
-
+import org.eclipse.IDAO.IDAO;
 import org.eclipse.daos.UserDAO;
 import org.eclipse.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,15 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+public class UserService implements IService<User>{
 
 	@Autowired
-	UserDAO userDAO;
+	IDAO<User> userDAO;
 	
+	public UserService(IDAO<User> userDAO) {
+		this.userDAO = userDAO;
+	}
+	public UserService() {}
 	@Transactional
 	public List<User> find() {
 		return this.userDAO.find();
@@ -49,4 +53,11 @@ public class UserService {
 		}
 		return false;
 	}
+	public IDAO<User> getUserDAO() {
+		return userDAO;
+	}
+	public void setUserDAO(IDAO<User> userDAO) {
+		this.userDAO = userDAO;
+	}
+	
 }

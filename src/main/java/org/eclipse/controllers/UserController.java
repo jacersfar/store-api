@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.eclipse.services.IService;
 import org.eclipse.services.UserService;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import org.eclipse.models.User;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
-	UserService userService;
+	IService<User> userService;
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET, produces = "application/json")
 	public List<User> find() {
@@ -63,6 +64,6 @@ public class UserController {
 	
 	@RequestMapping(value="/authenticate", produces = "application/json", method=RequestMethod.GET)
 	public boolean authenticate(@RequestParam String email, @RequestParam String password) {
-		return this.userService.authenticate(email, password);
+		return ((UserService)this.userService).authenticate(email, password);
 	}
 }

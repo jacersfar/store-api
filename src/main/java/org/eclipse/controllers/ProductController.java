@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.eclipse.models.Book;
 import org.eclipse.models.Product;
+import org.eclipse.services.IService;
 import org.eclipse.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/product")
 public class ProductController {
 	@Autowired
-	private ProductService productService;
+	private IService<Product> productService;
+	public ProductController() {}
+	public ProductController(IService<Product> productService) {
+		this.productService = productService;
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/all", produces = "application/json")
 	public List<Product> find() {
@@ -42,4 +48,11 @@ public class ProductController {
 	public Product findById(@PathVariable long id) {
 		return this.productService.findById(id);
 	}
+	public IService<Product> getProductService() {
+		return productService;
+	}
+	public void setProductService(IService<Product> productService) {
+		this.productService = productService;
+	}
+	
 }

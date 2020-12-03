@@ -3,6 +3,7 @@ package org.eclipse.controllers;
 import java.util.List;
 
 import org.eclipse.models.Order;
+import org.eclipse.services.IService;
 import org.eclipse.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order")
 public class OrderController {
 	@Autowired
-	private OrderService orderService;
+	private IService<Order> orderService;
+	public OrderController() {
+		
+	}
+	public OrderController(IService<Order> orderService) {
+		this.orderService = orderService;
+	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
 	public List<Order> find() {
@@ -44,6 +51,12 @@ public class OrderController {
 	
 	@RequestMapping(value="/total-price/{id}", method = RequestMethod.GET, produces = "application/json")
 	public double getTotalPriceOfOrder(@PathVariable long id) {
-		return this.orderService.getTotalPriceOfOrder(id);
+		return ((OrderService)this.orderService).getTotalPriceOfOrder(id);
+	}
+	public IService<Order> getOrderService() {
+		return orderService;
+	}
+	public void setOrderService(IService<Order> orderService) {
+		this.orderService = orderService;
 	}
 }
