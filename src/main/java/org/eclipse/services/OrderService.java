@@ -2,7 +2,7 @@ package org.eclipse.services;
 
 import java.util.List;
 
-import org.eclipse.daos.OrderDAO;
+import org.eclipse.IDAO.IDAO;
 import org.eclipse.models.Order;
 import org.eclipse.models.OrderLine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OrderService implements IService<Order>{
 	@Autowired
-	private OrderDAO orderDAO;
+	private IDAO<Order> orderDAO;
 	
 	@Transactional
 	public List<Order> find() {

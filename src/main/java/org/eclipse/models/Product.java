@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonDeserialize(as=Book.class)
 public abstract class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

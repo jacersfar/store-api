@@ -57,7 +57,7 @@ public class Book extends Product{
 	public void setReleaseDate(Calendar releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-	@JsonManagedReference
+	@JsonBackReference(value="books")
 	public Author getAuthor() {
 		return author;
 	}

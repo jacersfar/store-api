@@ -64,7 +64,7 @@ public class OrderLine {
 		this.order = order;
 	}
 
-	@JsonManagedReference(value="orderLines")
+	@JsonBackReference(value="orderLines")
 	public Product getProduct() {
 		return product;
 	}
