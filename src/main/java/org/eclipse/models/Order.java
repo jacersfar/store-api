@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,15 +16,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 
 @Entity
 @Table(name="client_order")
 public class Order {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@Column(name="order_date")
@@ -32,11 +36,13 @@ public class Order {
 	@Column(name="order_status")
 	private String status;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name="client") 
+	@ManyToOne
+	@JoinColumn(name="client", insertable = true, updatable = false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private Client client;
 	
-	@OneToMany(mappedBy="order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="order_id", insertable = true, updatable = true)    
 	private List<OrderLine> orderLines;
 
 	public Order() {
@@ -87,7 +93,6 @@ public class Order {
 		this.status = status;
 	}
 
-	@JsonBackReference(value="client")
 	public Client getClient() {
 		return client;
 	}
@@ -96,7 +101,6 @@ public class Order {
 		this.client = client;
 	}
 
-	@JsonManagedReference(value="order")
 	public List<OrderLine> getOrderLines() {
 		return orderLines;
 	}

@@ -18,27 +18,22 @@ public class OrderService implements IService<Order>{
 	public List<Order> find() {
 		return this.orderDAO.find();
 	}
-	
 	@Transactional
 	public Order findById(long id) {
 		return this.orderDAO.findById(id);
 	}
-	
 	@Transactional
-	public void add(Order order) {
-		this.orderDAO.add(order);
+	public Order add(Order order) {
+		return this.orderDAO.add(order);
 	}
-	
 	@Transactional
-	public void update(Order order) {
-		this.orderDAO.update(order);
+	public Order update(Order order) {
+		return this.orderDAO.update(order);
 	}
-	
 	@Transactional
-	public void delete(Order order) {
-		this.orderDAO.delete(order);
+	public Order delete(Order order) {
+		return this.orderDAO.delete(order);
 	}
-	
 	@Transactional
 	public double getTotalPriceOfOrder(long orderId) {
 		double sum = 0;

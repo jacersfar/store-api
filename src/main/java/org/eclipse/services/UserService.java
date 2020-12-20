@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements IService<User>{
+public class UserService{
 
 	@Autowired
 	IDAO<User> userDAO;
@@ -24,40 +24,28 @@ public class UserService implements IService<User>{
 	public List<User> find() {
 		return this.userDAO.find();
 	}
-	
 	@Transactional
 	public User findById(long id) {
 		return this.userDAO.findById(id);
 	}
-	
 	@Transactional
-	public void add(User user) {
-		this.userDAO.add(user);
+	public User add(User user) {
+		return this.userDAO.add(user);
 	}
-	
 	@Transactional
-	public void update(User user) {
-		this.userDAO.update(user);
+	public User update(User user) {
+		return this.userDAO.update(user);
 	}
-	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void delete(User user) {
-		this.userDAO.delete(user);
+	public User delete(User user) {
+		return this.userDAO.delete(user);
 	}
-	
 	@Transactional
-	public boolean authenticate(String email, String password) {
+	public User authenticate(String email, String password) {
 		for (User u: this.userDAO.find()) {
 			if (u.getEmail().equals(email) && u.getPassword().equals(password))
-				return true;
+				return u;
 		}
-		return false;
+		return null;
 	}
-	public IDAO<User> getUserDAO() {
-		return userDAO;
-	}
-	public void setUserDAO(IDAO<User> userDAO) {
-		this.userDAO = userDAO;
-	}
-	
 }

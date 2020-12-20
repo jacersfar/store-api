@@ -2,6 +2,7 @@ package org.eclipse.controllers;
 
 import java.util.List;
 
+import org.eclipse.models.Author;
 import org.eclipse.models.Order;
 import org.eclipse.services.IService;
 import org.eclipse.services.OrderService;
@@ -14,45 +15,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/author")
 @CrossOrigin(origins = "*")
-public class OrderController {
+public class AuthorController {
 	@Autowired
-	private IService<Order> orderService;
-	public OrderController() {
-		
-	}
-	public OrderController(IService<Order> orderService) {
-		this.orderService = orderService;
-	}
+	private IService<Author> authorService;
 	
+
 	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
-	public List<Order> find() {
-		return this.orderService.find();
+	public List<Author> find() {
+		return this.authorService.find();
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-	public Order add(@RequestBody Order order) {
-		return this.orderService.add(order);
+	public Author add(@RequestBody Author author) {
+		return this.authorService.add(author);
 	}
 	
 	@RequestMapping(value="/update", method = RequestMethod.PUT, produces = "application/json")
-	public Order update (@RequestBody Order order) {
-		return this.orderService.update(order);
+	public Author update (@RequestBody Author author) {
+		return this.authorService.update(author);
 	}
 	
-	@RequestMapping(value="/delete", method = RequestMethod.DELETE, produces = "application/json")
-	public Order delete(@RequestBody Order order) {
-		return this.orderService.delete(order);
+	@RequestMapping(value="/delete", method = RequestMethod.POST, produces = "application/json")
+	public Author delete(@RequestBody Author author) {
+		return this.authorService.delete(author);
 	}
 	
 	@RequestMapping(value="/find/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Order findById(@PathVariable long id) {
-		return this.orderService.findById(id);
-	}
-	
-	@RequestMapping(value="/total-price/{id}", method = RequestMethod.GET, produces = "application/json")
-	public double getTotalPriceOfOrder(@PathVariable long id) {
-		return ((OrderService)this.orderService).getTotalPriceOfOrder(id);
+	public Author findById(@PathVariable long id) {
+		return this.authorService.findById(id);
 	}
 }

@@ -9,12 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name="author")
@@ -27,7 +31,9 @@ public class Author {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy="author", cascade= {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="author_id", insertable=true, updatable=false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<Book> books;
 
 	public Author(long id, String name, List<Book> books) {
@@ -62,7 +68,7 @@ public class Author {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@JsonManagedReference(value="books")
+
 	public List<Book> getBooks() {
 		return books;
 	}

@@ -9,7 +9,8 @@ import javax.persistence.Table;
 public class Admin extends User{
 	@Column(name="name")
 	private String name;
-
+	@Column(name="admin")
+	private boolean admin = true;
 	public Admin() {
 		super();
 	}
@@ -36,6 +37,16 @@ public class Admin extends User{
 	@Override
 	public String toString() {
 		return "Admin [name=" + name + ", id=" + id + ", email=" + email + ", password=" + password + "]";
+	}
+
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	
 

@@ -22,8 +22,8 @@ public class Book extends Product{
 	@Column(name="release_date")
 	private Calendar releaseDate;
 	
-	@ManyToOne( cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="author_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="author_id", insertable = true, updatable = false)
 	private Author author;
 
 	
@@ -57,7 +57,7 @@ public class Book extends Product{
 	public void setReleaseDate(Calendar releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-	@JsonBackReference(value="books")
+	
 	public Author getAuthor() {
 		return author;
 	}

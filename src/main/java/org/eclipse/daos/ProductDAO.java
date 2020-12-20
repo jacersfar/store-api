@@ -28,28 +28,24 @@ public class ProductDAO implements IDAO<Product> {
 	}
 
 	@Override
-	public void add(Product object) {
+	public Product add(Product object) {
 		if (object instanceof Book)
 			this.sessionFactory.getCurrentSession().save((Book)object);
+		return object;
 		
 	}
 
 	@Override
-	public void delete(Product object) {
+	public Product delete(Product object) {
 		if (object instanceof Book)
 			this.sessionFactory.getCurrentSession().delete((Book)object);
+		return object;
 	}
 
 	@Override
-	public void update(Product object) {
+	public Product update(Product object) {
 		if (object instanceof Book)
 			this.sessionFactory.getCurrentSession().update((Book)object);
+		return object;
 	}
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
 }

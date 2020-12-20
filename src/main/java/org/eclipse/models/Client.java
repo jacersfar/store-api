@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -22,8 +23,10 @@ public class Client extends User {
 	@Column(name="name")
 	private String name;
 	
+	private boolean admin = false;
 	
-	@OneToMany(mappedBy="client", fetch = FetchType.EAGER,  cascade= {CascadeType.ALL})
+	@OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="client", updatable = false, insertable =false)
 	private List<Order> orderList;
 	
 	@Transient
@@ -75,7 +78,7 @@ public class Client extends User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@JsonManagedReference(value="client")
+	
 	public List<Order> getOrderList() {
 		return orderList;
 	}
@@ -112,9 +115,21 @@ public class Client extends User {
 	}
 
 
+	public boolean isAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Client [name=" + name + ", orderList=" + orderList + ", cart=" + cart + ", id=" + id + ", email="
 				+ email + ", password=" + password + "]";
 	}
+	
+	
 }

@@ -11,16 +11,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Product {
+@JsonDeserialize(as = Book.class)
+public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -31,7 +34,9 @@ public abstract class Product {
 	@Column(name="quantity")
 	protected int quantity;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "product")
+	@OneToMany
+	@JoinColumn(name="product_id", insertable = true, updatable = false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<OrderLine> orderLines;
 
 	public Product(long id, double price, int quantity) {
@@ -68,8 +73,7 @@ public abstract class Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
-	@JsonManagedReference(value="orderLines")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public List<OrderLine> getOrderLines() {
 		return orderLines;
 	}

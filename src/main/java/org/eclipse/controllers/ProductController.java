@@ -8,6 +8,7 @@ import org.eclipse.services.IService;
 import org.eclipse.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,43 +17,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin(origins = "*")
 public class ProductController {
 	@Autowired
 	private IService<Product> productService;
-	public ProductController() {}
-	public ProductController(IService<Product> productService) {
-		this.productService = productService;
-	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all", produces = "application/json")
 	public List<Product> find() {
 		return this.productService.find();
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/book/add")
-	public void add(@RequestBody Book book) {
-		this.productService.add(book);
+	@RequestMapping(method = RequestMethod.POST, value = "/book/add", produces = "application/json")
+	public Product add(@RequestBody Book book) {
+		return this.productService.add(book);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/book/update")
-	public void update(@RequestBody Book book) {
-		this.productService.update(book);
+	@RequestMapping(method = RequestMethod.PUT, value = "/book/update", produces = "application/json")
+	public Product update(@RequestBody Book book) {
+		return this.productService.update(book);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/book/delete")
-	public void delete(@RequestBody Book book) {
-		this.productService.delete(book);
+	@RequestMapping(method = RequestMethod.POST, value = "/book/delete", produces = "application/json")
+	public Product delete(@RequestBody Book book) {
+		return this.productService.delete(book);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/get/{id}", produces = "application/json")
 	public Product findById(@PathVariable long id) {
 		return this.productService.findById(id);
 	}
-	public IService<Product> getProductService() {
-		return productService;
-	}
-	public void setProductService(IService<Product> productService) {
-		this.productService = productService;
-	}
-	
 }

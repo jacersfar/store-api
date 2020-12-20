@@ -1,5 +1,6 @@
 package org.eclipse.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name="order_line")
@@ -21,11 +25,12 @@ public class OrderLine {
 	private long id;
 	
 	@ManyToOne
-	@JoinColumn(name="order_id")
+	@JoinColumn(name="order_id", insertable = true, updatable = false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private Order order;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="product_id")
+	@JoinColumn(name="product_id", insertable = true, updatable = false)
 	private Product product;
 	
 	@Column(name="quantity")
@@ -55,7 +60,7 @@ public class OrderLine {
 		this.id = id;
 	}
 
-	@JsonBackReference(value="order")
+
 	public Order getOrder() {
 		return order;
 	}
@@ -64,7 +69,6 @@ public class OrderLine {
 		this.order = order;
 	}
 
-	@JsonBackReference(value="orderLines")
 	public Product getProduct() {
 		return product;
 	}
@@ -80,6 +84,4 @@ public class OrderLine {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	
 }

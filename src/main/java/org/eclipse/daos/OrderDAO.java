@@ -23,17 +23,19 @@ public class OrderDAO implements IDAO<Order>{
 		return (Order) this.sessionFactory.getCurrentSession().get(Order.class, id);
 	}
 	@Override
-	public void add(Order object) {
+	public Order add(Order object) {
 		this.sessionFactory.getCurrentSession().save(object);
+		return object;
 		
 	}
 	@Override
-	public void delete(Order object) {
+	public Order delete(Order object) {
 		this.sessionFactory.getCurrentSession().delete(object);
-		
+		return object;
 	}
 	@Override
-	public void update(Order object) {
+	public Order update(Order object) {
 		this.sessionFactory.getCurrentSession().update(object);
+		return object;
 	}
 }

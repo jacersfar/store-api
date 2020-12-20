@@ -28,24 +28,19 @@ public class ProductService implements IService<Product>{
 	}
 	
 	@Transactional
-	public void add(Product product) {
-		this.productDAO.add(product);
+	public Product add(Product product) {
+		return this.productDAO.add(product);
 	}
 	
 	@Transactional
-	public void update(Product product) {
-		this.productDAO.update(product);
+	public Product update(Product product) {
+		return this.productDAO.update(product);
 	}
 	
 	@Transactional
-	public void delete(Product product) {
-		this.productDAO.delete(product);
+	public Product delete(Product product) {
+		return this.productDAO.delete(product);
 	}
-	public IDAO<Product> getProductDAO() {
-		return productDAO;
-	}
-	public void setProductDAO(IDAO<Product> productDAO) {
-		this.productDAO = productDAO;
-	}
+
 	
 }

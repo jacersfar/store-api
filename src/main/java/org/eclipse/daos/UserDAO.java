@@ -28,24 +28,29 @@ public class UserDAO implements IDAO<User>{
 		return (User) this.sessionFactory.getCurrentSession().get(User.class, id);
 	}
 	@Override
-	public void add(User object) {
+	public User add(User object) {
 		if (object instanceof Client)
 			this.sessionFactory.getCurrentSession().save((Client) object);
 		else if (object instanceof Admin) 
 			this.sessionFactory.getCurrentSession().save((Admin) object);
+		
+		return object;
 	}
 	@Override
-	public void delete(User object) {
+	public User delete(User object) {
 		if (object instanceof Client)
 			this.sessionFactory.getCurrentSession().delete((Client) object);
 		else if (object instanceof Admin) 
 			this.sessionFactory.getCurrentSession().delete((Admin) object);
+		
+		return object;
 	}
 	@Override
-	public void update(User object) {
+	public User update(User object) {
 		if (object instanceof Client)
 			this.sessionFactory.getCurrentSession().update((Client) object);
 		else if (object instanceof Admin) 
 			this.sessionFactory.getCurrentSession().update((Admin) object);
+		return object;
 	}
 }
